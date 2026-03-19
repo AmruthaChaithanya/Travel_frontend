@@ -1,0 +1,401 @@
+.profile-container {
+  min-height: calc(100vh - 80px);
+  padding: 2rem;
+  background: #f9fafb;
+}
+
+.profile-container h1 {
+  max-width: 900px;
+  margin: 0 auto 2rem;
+  color: #1f2937;
+  font-size: 2rem;
+}
+
+.loading-container {
+  min-height: calc(100vh - 80px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #3b82f6;
+  font-size: 1.25rem;
+}
+
+.error-message,
+.success-message {
+  max-width: 900px;
+  margin: 0 auto 1.5rem;
+  padding: 1rem;
+  border-radius: 0.5rem;
+}
+
+.error-message {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.success-message {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.profile-card {
+  max-width: 900px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.profile-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 3rem 2rem;
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+.avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  font-weight: 700;
+  border: 4px solid rgba(255, 255, 255, 0.5);
+}
+
+.user-info h2 {
+  margin: 0 0 0.5rem 0;
+  font-size: 2rem;
+}
+
+.user-info p {
+  margin: 0.25rem 0;
+  opacity: 0.9;
+}
+
+.username {
+  font-size: 0.875rem !important;
+  opacity: 0.75 !important;
+}
+
+.profile-body {
+  padding: 2rem;
+}
+
+.edit-btn {
+  float: right;
+  padding: 0.75rem 1.5rem;
+  background: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s;
+  margin-bottom: 1.5rem;
+}
+
+.edit-btn:hover {
+  background: #2563eb;
+}
+
+.info-section {
+  clear: both;
+}
+
+.info-section h3 {
+  color: #1f2937;
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.label {
+  color: #6b7280;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.value {
+  color: #1f2937;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+/* Form Styles */
+.form-section {
+  clear: both;
+}
+
+.form-section h3 {
+  color: #1f2937;
+  font-size: 1.25rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #374151;
+  font-weight: 500;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #3b82f6;
+}
+
+.cancel-edit-btn,
+.save-btn {
+  padding: 0.875rem 2rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  margin-right: 0.75rem;
+}
+
+.cancel-edit-btn {
+  background: #e5e7eb;
+  color: #374151;
+}
+
+.cancel-edit-btn:hover {
+  background: #d1d5db;
+}
+
+.save-btn {
+  background: #3b82f6;
+  color: white;
+}
+
+.save-btn:hover {
+  background: #2563eb;
+}
+
+.save-btn:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .profile-container {
+    padding: 1rem;
+  }
+
+  .profile-container h1 {
+    font-size: 1.5rem;
+  }
+
+  .loading-container {
+    font-size: 1.1rem;
+  }
+
+  .error-message,
+  .success-message {
+    padding: 0.75rem;
+    font-size: 0.9rem;
+  }
+
+  .profile-header {
+    flex-direction: column;
+    text-align: center;
+    padding: 2rem 1.5rem;
+  }
+
+  .avatar {
+    width: 80px;
+    height: 80px;
+    font-size: 2rem;
+  }
+
+  .user-info h2 {
+    font-size: 1.5rem;
+  }
+
+  .user-info p {
+    font-size: 0.9rem;
+  }
+
+  .username {
+    font-size: 0.8rem !important;
+  }
+
+  .profile-body {
+    padding: 1.5rem;
+  }
+
+  .edit-btn {
+    float: none;
+    display: block;
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 0.9rem;
+  }
+
+  .info-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .info-item h4 {
+    font-size: 0.9rem;
+  }
+
+  .info-item p {
+    font-size: 0.9rem;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .form-group input,
+  .form-group select {
+    padding: 0.7rem;
+    font-size: 0.95rem;
+  }
+
+  .cancel-edit-btn,
+  .save-btn {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 0.75rem;
+    padding: 0.75rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .profile-container {
+    padding: 0.75rem;
+  }
+
+  .profile-container h1 {
+    font-size: 1.25rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .loading-container {
+    font-size: 1rem;
+  }
+
+  .error-message,
+  .success-message {
+    padding: 0.65rem;
+    font-size: 0.85rem;
+  }
+
+  .profile-card {
+    border-radius: 0.5rem;
+  }
+
+  .profile-header {
+    padding: 1.5rem 1rem;
+  }
+
+  .avatar {
+    width: 70px;
+    height: 70px;
+    font-size: 1.75rem;
+    border: 3px solid rgba(255, 255, 255, 0.5);
+  }
+
+  .user-info h2 {
+    font-size: 1.25rem;
+  }
+
+  .user-info p {
+    font-size: 0.85rem;
+    margin: 0.2rem 0;
+  }
+
+  .username {
+    font-size: 0.75rem !important;
+  }
+
+  .profile-body {
+    padding: 1rem;
+  }
+
+  .edit-btn {
+    padding: 0.65rem;
+    font-size: 0.85rem;
+  }
+
+  .info-item h4 {
+    font-size: 0.85rem;
+  }
+
+  .info-item p {
+    font-size: 0.85rem;
+  }
+
+  .form-group {
+    margin-bottom: 0.875rem;
+  }
+
+  .form-group label {
+    font-size: 0.85rem;
+  }
+
+  .form-group input,
+  .form-group select {
+    padding: 0.65rem;
+    font-size: 0.9rem;
+  }
+
+  .cancel-edit-btn,
+  .save-btn {
+    padding: 0.65rem;
+    font-size: 0.85rem;
+    margin-bottom: 0.65rem;
+  }
+
+  .save-btn:disabled {
+    padding: 0.65rem;
+  }
+}
