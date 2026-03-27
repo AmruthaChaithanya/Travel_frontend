@@ -63,37 +63,40 @@ const MyBookings = () => {
             <div className="booking-header">
               <div className="pnr-info">
                 <span className="pnr-label">PNR:</span>
-                <span className="pnr-number">{booking.ticket?.pnr}</span>
+                <span className="pnr-number">{booking.ticket_pnr || 'Not Generated'}</span>
               </div>
-              <span className={`status ${booking.status?.toLowerCase()}`}>
-                {booking.status}
+              <span
+                className={`status ${(booking.booking_status || booking.status || '')
+                  .toLowerCase()}`}
+              >
+                {booking.booking_status || booking.status}
               </span>
             </div>
 
             <div className="booking-body">
               <div className="ticket-type">
-                {booking.ticket?.ticket_type === 'FLIGHT' && '✈️ Flight'}
-                {booking.ticket?.ticket_type === 'TRAIN' && '🚂 Train'}
-                {booking.ticket?.ticket_type === 'BUS' && '🚌 Bus'}
+                {booking.ticket_type === 'FLIGHT' && '✈️ Flight'}
+                {booking.ticket_type === 'TRAIN' && '🚂 Train'}
+                {booking.ticket_type === 'BUS' && '🚌 Bus'}
               </div>
 
               <div className="route-info">
-                <strong>{booking.ticket?.source}</strong> →{' '}
-                <strong>{booking.ticket?.destination}</strong>
+                <strong>{booking.source}</strong> →{' '}
+                <strong>{booking.destination}</strong>
               </div>
 
               <div className="journey-date">
-                Journey Date: {new Date(booking.ticket?.journey_date).toLocaleDateString()}
+                Journey Date: {new Date(booking.journey_date).toLocaleDateString()}
               </div>
 
               <div className="passenger-info">
-                {booking.ticket?.passenger_name} ({booking.ticket?.passenger_age} yrs)
+                {booking.passenger_name} ({booking.number_of_seats} seats)
               </div>
             </div>
 
             <div className="booking-footer">
               <div className="booking-price">
-                Total Paid: ₹{booking.ticket?.total_amount}
+                Total Paid: ₹{booking.total_amount}
               </div>
               
               <div className="booking-actions">
@@ -104,7 +107,7 @@ const MyBookings = () => {
                   View Details
                 </Link>
                 
-                {booking.status !== 'CANCELLED' && (
+                {(booking.booking_status || booking.status) !== 'CANCELLED' && (
                   <button
                     onClick={() => handleCancelBooking(booking.id)}
                     className="cancel-btn-small"

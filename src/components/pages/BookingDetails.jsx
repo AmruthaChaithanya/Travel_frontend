@@ -72,10 +72,10 @@ const BookingDetails = () => {
         <div className="card-banner">
           <div className="pnr-section">
             <span className="pnr-label">PNR Number</span>
-            <span className="pnr-value">{booking.ticket?.pnr}</span>
+              <span className="pnr-value">{booking.ticket_pnr || booking.ticket?.pnr}</span>
           </div>
-          <span className={`status-badge ${booking.status?.toLowerCase()}`}>
-            {booking.status}
+            <span className={`status-badge ${booking.booking_status?.toLowerCase()}`}>
+              {booking.booking_status}
           </span>
         </div>
 
@@ -86,28 +86,28 @@ const BookingDetails = () => {
               <div className="info-item">
                 <span className="label">Ticket Type:</span>
                 <span className="value">
-                  {booking.ticket?.ticket_type === 'FLIGHT' && '✈️ Flight'}
-                  {booking.ticket?.ticket_type === 'TRAIN' && '🚂 Train'}
-                  {booking.ticket?.ticket_type === 'BUS' && '🚌 Bus'}
+                  {(booking.ticket_type || booking.schedule_type) === 'FLIGHT' && '✈️ Flight'}
+                  {(booking.ticket_type || booking.schedule_type) === 'TRAIN' && '🚂 Train'}
+                  {(booking.ticket_type || booking.schedule_type) === 'BUS' && '🚌 Bus'}
                 </span>
               </div>
               <div className="info-item">
                 <span className="label">Source:</span>
-                <span className="value">{booking.ticket?.source}</span>
+                <span className="value">{booking.source}</span>
               </div>
               <div className="info-item">
                 <span className="label">Destination:</span>
-                <span className="value">{booking.ticket?.destination}</span>
+                <span className="value">{booking.destination}</span>
               </div>
               <div className="info-item">
                 <span className="label">Journey Date:</span>
                 <span className="value">
-                  {new Date(booking.ticket?.journey_date).toLocaleDateString()}
+                  {booking.journey_date ? new Date(booking.journey_date).toLocaleDateString() : ''}
                 </span>
               </div>
               <div className="info-item">
                 <span className="label">Journey Time:</span>
-                <span className="value">{booking.ticket?.journey_time}</span>
+                <span className="value">{booking.journey_time}</span>
               </div>
             </div>
           </div>
@@ -117,23 +117,23 @@ const BookingDetails = () => {
             <div className="info-grid">
               <div className="info-item">
                 <span className="label">Name:</span>
-                <span className="value">{booking.ticket?.passenger_name}</span>
+                <span className="value">{booking.passenger_name}</span>
               </div>
               <div className="info-item">
                 <span className="label">Age:</span>
-                <span className="value">{booking.ticket?.passenger_age} years</span>
+                <span className="value">{booking.passenger_age} years</span>
               </div>
               <div className="info-item">
                 <span className="label">Gender:</span>
-                <span className="value">{booking.ticket?.passenger_gender}</span>
+                <span className="value">{booking.passenger_gender}</span>
               </div>
               <div className="info-item">
                 <span className="label">Contact:</span>
-                <span className="value">{booking.ticket?.contact_number}</span>
+                <span className="value">{booking.contact_number}</span>
               </div>
               <div className="info-item">
                 <span className="label">Email:</span>
-                <span className="value">{booking.ticket?.contact_email}</span>
+                <span className="value">{booking.contact_email}</span>
               </div>
             </div>
           </div>
@@ -143,15 +143,15 @@ const BookingDetails = () => {
             <div className="fare-breakdown">
               <div className="fare-item">
                 <span>Base Fare:</span>
-                <span>₹{booking.ticket?.base_fare}</span>
+                <span>₹{booking.base_fare}</span>
               </div>
               <div className="fare-item">
                 <span>Taxes:</span>
-                <span>₹{booking.ticket?.taxes}</span>
+                <span>₹{booking.taxes}</span>
               </div>
               <div className="fare-item total">
                 <span>Total Amount:</span>
-                <span>₹{booking.ticket?.total_amount}</span>
+                <span>₹{booking.total_amount}</span>
               </div>
             </div>
           </div>
@@ -165,17 +165,11 @@ const BookingDetails = () => {
                   {new Date(booking.booked_at).toLocaleString()}
                 </span>
               </div>
-              {booking.payment_id && (
-                <div className="info-item">
-                  <span className="label">Payment ID:</span>
-                  <span className="value">{booking.payment_id}</span>
-                </div>
-              )}
             </div>
           </div>
         </div>
 
-        {booking.status !== 'CANCELLED' && (
+        {booking.booking_status !== 'CANCELLED' && (
           <div className="card-actions">
             <button onClick={handleCancelBooking} className="cancel-booking-btn">
               Cancel Booking

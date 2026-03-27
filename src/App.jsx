@@ -10,6 +10,7 @@ import Buses from './components/pages/Buses';
 import BookingDetails from './components/pages/BookingDetails';
 import MyBookings from './components/pages/MyBookings';
 import Profile from './components/pages/Profile';
+import PassengerDetails from './components/pages/PassengerDetails';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import './App.css';
 
@@ -47,6 +48,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <Profile />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/passenger-details" 
+              element={
+                <ProtectedRoute>
+                  <PassengerDetails />
                 </ProtectedRoute>
               } 
             />

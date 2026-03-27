@@ -13,15 +13,28 @@ export const bookingService = {
     return response.data;
   },
 
-  // Create new booking
+  // Create new booking from schedule (UPDATED - schedule-based flow)
   createBooking: async (bookingData) => {
+    // bookingData should contain:
+    // {
+    //   schedule_type: 'FLIGHT' | 'TRAIN' | 'BUS',
+    //   schedule_id: number,
+    //   number_of_seats: number
+    // }
     const response = await api.post('/bookings/create/', bookingData);
     return response.data;
   },
 
-  // Cancel booking
-  cancelBooking: async (id) => {
-    const response = await api.post(`/bookings/${id}/cancel/`);
+  // Confirm booking after payment (NEW - for completing booking)
+  confirmBooking: async (bookingId, confirmData) => {
+    const response = await api.post(`/bookings/${bookingId}/confirm/`, confirmData);
     return response.data;
   },
+
+  // Cancel booking
+  cancelBooking: async (bookingId) => {
+    const response = await api.post(`/bookings/${bookingId}/cancel/`);
+    return response.data;
+  },
+
 };

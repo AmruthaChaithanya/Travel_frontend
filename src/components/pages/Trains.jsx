@@ -1,24 +1,25 @@
 import { useState, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import { ticketService } from '../../services/ticketService';
-import { bookingService } from '../../services/bookingService';
+import { authService } from '../../services/authService';
 import './Search.css';
 
 const Trains = () => {
+  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const [trains, setTrains] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [selectedTrain, setSelectedTrain] = useState(null);
   const [showBookingModal, setShowBookingModal] = useState(false);
+  const [numberOfSeats, setNumberOfSeats] = useState(1);
 
-  const [passengerData, setPassengerData] = useState({
-    passenger_name: '',
-    passenger_age: '',
-    passenger_gender: 'Male',
-    contact_number: '',
-    contact_email: '',
-  });
+  const isBookable = (item) => {
+    if (!item?.journey_date || !item?.departure_time) return false;
+    const departure = new Date(`${item.journey_date}T${item.departure_time}`);
+    if (Number.isNaN(departure.getTime())) return false;
+    return departure.getTime() > Date.now() + 6 * 60 * 60 * 1000;
+  };
 
   useEffect(() => {
     fetchTrains();
@@ -36,7 +37,8 @@ const Trains = () => {
       };
       
       const data = await ticketService.getTrains(params);
-      setTrains(Array.isArray(data) ? data : []);
+      const normalized = Array.isArray(data) ? data : [];
+      setTrains(normalized.filter(isBookable));
     } catch (err) {
       setError('Failed to fetch trains. Please try again.');
       console.error(err);
@@ -46,41 +48,45 @@ const Trains = () => {
   };
 
   const handleBookNow = (train) => {
+    // Check if user is logged in
+    const user = authService.getCurrentUser();
+    if (!user) {
+      alert('Please login to book tickets');
+      navigate('/login');
+      return;
+    }
+    
     setSelectedTrain(train);
+    setNumberOfSeats(1);
     setShowBookingModal(true);
   };
 
-  const handlePassengerChange = (e) => {
-    setPassengerData({
-      ...passengerData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleBookingSubmit = async (e) => {
-    e.preventDefault();
-    
-    try {
-      const bookingData = {
-        ticket_type: 'TRAIN',
-        ticket_id: selectedTrain.id,
-        ...passengerData,
-      };
-      
-      await bookingService.createBooking(bookingData);
-      alert('Booking successful!');
-      setShowBookingModal(false);
-      setPassengerData({
-        passenger_name: '',
-        passenger_age: '',
-        passenger_gender: 'Male',
-        contact_number: '',
-        contact_email: '',
-      });
-    } catch (err) {
-      alert('Booking failed. Please try again.');
-      console.error(err);
+  const handleBookNowClick = () => {
+    // Check if user is logged in
+    const user = authService.getCurrentUser();
+    if (!user) {
+      alert('Please login to book tickets');
+      navigate('/login');
+      return;
     }
+    
+    // Navigate to passenger details page with train information
+    navigate('/passenger-details', {
+      state: {
+        schedule_type: 'TRAIN',
+        schedule_id: selectedTrain.id,
+        number_of_seats: numberOfSeats,
+        total_amount: selectedTrain.base_fare * numberOfSeats,
+        journey_details: {
+          source: selectedTrain.source_station,
+          destination: selectedTrain.destination_station,
+          date: selectedTrain.journey_date,
+          time: selectedTrain.departure_time,
+          train_name: selectedTrain.train_name,
+          train_number: selectedTrain.train_number
+        }
+      }
+    });
   };
 
   return (
@@ -117,7 +123,7 @@ const Trains = () => {
               <div className="route">
                 <div className="station">
                   <span className="time">{train.departure_time}</span>
-                  <span className="city">{train.source}</span>
+                  <span className="city">{train.source_station}</span>
                 </div>
                 <div className="duration">
                   <span className="line"></span>
@@ -125,121 +131,79 @@ const Trains = () => {
                 </div>
                 <div className="station">
                   <span className="time">{train.arrival_time}</span>
-                  <span className="city">{train.destination}</span>
+                  <span className="city">{train.destination_station}</span>
                 </div>
               </div>
 
               <div className="details">
-                <span className="class">{train.coach}</span>
-                <span className="available">Available</span>
+                <span className="class">{train.coach_class}</span>
+                <span className="available">{train.available_seats} seats available</span>
               </div>
             </div>
 
             <div className="card-footer">
               <div className="price">
-                <span className="amount">₹{train.base_fare}</span>
-                <span className="tax">+ taxes</span>
+                <span className="amount">₹{(parseFloat(train.base_fare) + parseFloat(train.taxes || 0)).toFixed(2)}</span>
+                <span className="tax">(incl. taxes)</span>
               </div>
               <button 
                 className="book-btn"
                 onClick={() => handleBookNow(train)}
+                disabled={train.available_seats === 0}
               >
-                Book Now
+                {train.available_seats === 0 ? 'Sold Out' : 'Book Now'}
               </button>
             </div>
           </div>
         ))}
       </div>
 
-      {/* Booking Modal */}
+      {/* Booking Modal - Simplified */}
       {showBookingModal && selectedTrain && (
         <div className="modal-overlay" onClick={() => setShowBookingModal(false)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <h2>Book Your Train Ticket</h2>
+            <h2>Ready to Book?</h2>
             
             <div className="train-summary">
               <h4>Train Details</h4>
-              <p>{selectedTrain.train_name} - {selectedTrain.train_number}</p>
-              <p>{selectedTrain.source} → {selectedTrain.destination}</p>
-              <p>Departure: {selectedTrain.departure_time} | Arrival: {selectedTrain.arrival_time}</p>
-              <p className="total-price">Total: ₹{selectedTrain.base_fare}</p>
+              <p><strong>Train:</strong> {selectedTrain.train_name} - {selectedTrain.train_number}</p>
+              <p><strong>Route:</strong> {selectedTrain.source_station} → {selectedTrain.destination_station}</p>
+              <p><strong>Date:</strong> {selectedTrain.journey_date}</p>
+              <p><strong>Departure:</strong> {selectedTrain.departure_time}</p>
             </div>
 
-            <form onSubmit={handleBookingSubmit}>
-              <div className="form-group">
-                <label>Passenger Name</label>
-                <input
-                  type="text"
-                  name="passenger_name"
-                  value={passengerData.passenger_name}
-                  onChange={handlePassengerChange}
-                  required
-                />
-              </div>
+            <div className="form-group">
+              <label>Number of Seats</label>
+              <input
+                type="number"
+                min="1"
+                max={selectedTrain.available_seats}
+                value={numberOfSeats}
+                onChange={(e) => setNumberOfSeats(parseInt(e.target.value))}
+                required
+              />
+            </div>
 
-              <div className="form-row">
-                <div className="form-group">
-                  <label>Age</label>
-                  <input
-                    type="number"
-                    name="passenger_age"
-                    value={passengerData.passenger_age}
-                    onChange={handlePassengerChange}
-                    required
-                  />
-                </div>
+            <div className="price-calculation">
+              <p>Total Amount: <strong>₹{((parseFloat(selectedTrain.base_fare) + parseFloat(selectedTrain.taxes || 0)) * numberOfSeats).toFixed(2)}</strong></p>
+            </div>
 
-                <div className="form-group">
-                  <label>Gender</label>
-                  <select
-                    name="passenger_gender"
-                    value={passengerData.passenger_gender}
-                    onChange={handlePassengerChange}
-                    required
-                  >
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
-                    <option value="Other">Other</option>
-                  </select>
-                </div>
-              </div>
-
-              <div className="form-group">
-                <label>Contact Number</label>
-                <input
-                  type="tel"
-                  name="contact_number"
-                  value={passengerData.contact_number}
-                  onChange={handlePassengerChange}
-                  required
-                  pattern="[0-9]{10}"
-                />
-              </div>
-
-              <div className="form-group">
-                <label>Email</label>
-                <input
-                  type="email"
-                  name="contact_email"
-                  value={passengerData.contact_email}
-                  onChange={handlePassengerChange}
-                  required
-                />
-              </div>
-
-              <div className="modal-actions">
-                <button 
-                  type="button" 
-                  className="cancel-btn"
-                  onClick={() => setShowBookingModal(false)}
-                >
-                  Cancel
-                </button>
-                <button type="submit" className="confirm-btn">
-                  Confirm Booking
-                </button>
-              </div>
-            </form>
+            <div className="modal-actions">
+              <button 
+                type="button" 
+                className="cancel-btn"
+                onClick={() => setShowBookingModal(false)}
+              >
+                Cancel
+              </button>
+              <button 
+                type="button" 
+                className="confirm-btn"
+                onClick={handleBookNowClick}
+              >
+                Continue to Passenger Details →
+              </button>
+            </div>
           </div>
         </div>
       )}

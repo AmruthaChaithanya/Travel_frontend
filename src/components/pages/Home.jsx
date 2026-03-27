@@ -24,7 +24,7 @@ const Home = () => {
     if (activeTab === 'flights') {
       navigate(`/flights?from=${searchData.from}&to=${searchData.to}&date=${searchData.date}`);
     } else if (activeTab === 'buses') {
-      navigate(`/trains?from=${searchData.from}&to=${searchData.to}&date=${searchData.date}`);
+      navigate(`/buses?from=${searchData.from}&to=${searchData.to}&date=${searchData.date}`);
     } else if (activeTab === 'trains') {
       navigate(`/trains?from=${searchData.from}&to=${searchData.to}&date=${searchData.date}`);
     }
@@ -114,7 +114,7 @@ const Home = () => {
           <div className="feature-card">
             <div className="feature-icon">🔒</div>
             <h3>Secure Booking</h3>
-            <p>Your bookings are protected with secure payment gateways</p>
+            <p>Your bookings are protected with a secure confirmation flow</p>
           </div>
           <div className="feature-card">
             <div className="feature-icon">💰</div>
