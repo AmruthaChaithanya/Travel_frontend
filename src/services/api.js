@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'https://travel-backend-cabb.onrender.com/api/';
+const API_BASE_URL = 'https://web-production-94788.up.railway.app/api/';
 
 // Create axios instance
 const api = axios.create({
