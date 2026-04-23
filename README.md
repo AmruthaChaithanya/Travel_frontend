@@ -2,7 +2,7 @@
 
 A modern, responsive frontend application for MyTravel - a comprehensive travel booking platform for flights, trains, and buses.
 
-## 🚀 Technologies Used
+## Technologies Used
 
 - **React 19** - UI Library
 - **Vite** - Build tool and dev server
@@ -10,7 +10,7 @@ A modern, responsive frontend application for MyTravel - a comprehensive travel 
 - **Axios** - HTTP client for API calls
 - **CSS3** - Custom styling with modern features
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 frontend/
@@ -47,66 +47,31 @@ frontend/
 └── index.html
 ```
 
-## 🎯 Features
+## Features
 
 ### Authentication
-- ✅ User Registration with validation
-- ✅ User Login/Logout
-- ✅ Protected routes for authenticated users
-- ✅ Session management
+-  User Registration with validation
+-  User Login/Logout
+-  Protected routes for authenticated users
+-  Session management
 
 ### Travel Booking
-- ✈️ **Flights**: Search, browse, and book flights
-- 🚌 **Buses**: Search, browse, and book buses  
-- 🚂 **Trains**: Search, browse, and book trains
+-  **Flights**: Search, browse, and book flights
+-  **Buses**: Search, browse, and book buses  
+-  **Trains**: Search, browse, and book trains
 
 ### User Dashboard
-- 👤 Profile management
-- 📋 View all bookings
-- 📄 Detailed booking information
-- ❌ Cancel bookings (with refund calculation)
+-  Profile management
+-  View all bookings
+-  Detailed booking information
+-  Cancel bookings (with refund calculation)
 
 ### Key Features
-- 🔍 Advanced search with filters
-- 💳 Secure booking flow
-- 📱 Fully responsive design
-- ⚡ Real-time availability
-- 🎨 Modern, intuitive UI
-
-## 🛠️ Installation & Setup
-
-### Prerequisites
-- Node.js (v16 or higher)
-- npm or yarn
-
-### Install Dependencies
-```bash
-cd frontend
-npm install
-```
-
-### Configure Backend Connection
-
-The frontend is configured to connect to the Django backend at `http://localhost:8000/api`.
-
-Make sure your Django backend is running on port 8000.
-
-### Start Development Server
-```bash
-npm run dev
-```
-
-The app will be available at `http://localhost:5173`
-
-### Build for Production
-```bash
-npm run build
-```
-
-### Preview Production Build
-```bash
-npm run preview
-```
+-  Advanced search with filters
+-  Secure booking flow
+-  Fully responsive design
+-  Real-time availability
+-  Modern, intuitive UI
 
 ## 🔗 API Endpoints
 
@@ -132,72 +97,10 @@ The frontend connects to the following backend endpoints:
 - `POST /api/bookings/create/` - Create new booking
 - `POST /api/bookings/:id/cancel/` - Cancel booking
 
-## 🎨 Design System
-
-### Color Palette
-- **Primary**: #3b82f6 (Blue)
-- **Secondary**: #667eea (Purple)
-- **Success**: #10b981 (Green)
-- **Danger**: #ef4444 (Red)
-- **Background**: #f9fafb (Light Gray)
-
-### Typography
-- Font Family: System fonts (-apple-system, BlinkMacSystemFont, Segoe UI, Roboto)
-- Base Size: 16px
-- Headings: Bold, various sizes
-
-## 📱 Responsive Breakpoints
-
-- Mobile: < 768px
-- Tablet: 768px - 1024px
-- Desktop: > 1024px
-
-## 🔐 Security Features
+## Security Features
 
 - CSRF protection enabled
 - Secure token-based authentication
 - Protected routes for authenticated actions
 - Input validation on forms
 - Error handling and user feedback
-
-##  Troubleshooting
-
-### Backend Connection Issues
-If you see network errors, ensure:
-1. Django backend is running (`python manage.py runserver`)
-2. CORS is properly configured in Django settings
-3. API_BASE_URL in `src/services/api.js` matches your backend URL
-
-### Build Errors
-Try:
-```bash
-rm -rf node_modules package-lock.json
-npm install
-```
-
-## 📝 Environment Variables
-
-Create a `.env` file in the frontend root if needed:
-```
-VITE_API_URL=http://localhost:8000/api
-```
-
-## 🤝 Contributing
-
-This is a project presentation. Follow the existing code style and component structure.
-
-## 📄 License
-
-This project is for educational/demo purposes.
-
-## 🙏 Acknowledgments
-
-Built with:
-- React (https://react.dev/)
-- Vite (https://vitejs.dev/)
-- React Router (https://reactrouter.com/)
-- Axios (https://axios-http.com/)
-
----
-
-**Happy Coding! 🚀**
